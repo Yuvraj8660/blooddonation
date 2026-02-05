@@ -1,48 +1,51 @@
-
 import { useEffect, useState } from "react";
-import "./donate.css"; // optional CSS file
+import "./alldonate.css";
 import { AllInfoOfDonor } from "../services/operations/ViewDonors";
 
 const ViewAllDonars = () => {
   const [allDonor, setAllDonor] = useState([]);
 
-
   async function CallDonor() {
     try {
       const data = await AllInfoOfDonor();
-      setAllDonor(data)
-
-      console.log("me chala", data)
-    }
-
-    catch (err) {
-      console.log(err)
+      setAllDonor(data);
+    } catch (err) {
+      console.log(err);
     }
   }
+
   useEffect(() => {
-    CallDonor()
-  }, [])
-  console.log(allDonor)
+    CallDonor();
+  }, []);
 
   return (
-    <div>
-      <h1>View all donor history</h1>
-      <div>
-        {
-          allDonor?.length <= 0 ? (<p>No Donor history found</p>) : (<>
-            {
-              allDonor.map(item => {
-                return (<> <p>Name of Donor <b>{item?.fullName}</b></p>
-                  <p>Group Type  <b>{item?.bloodType}</b></p>
-                  <p>Resaon  <b>{item?.reason}</b></p></>)
+    <div className="donor-container">
+      <h1 className="title">🩸All  Donor's</h1>
 
-              })
-            }
-          </>)
-        }
-      </div>
+      {allDonor?.length <= 0 ? (
+        <p className="empty">No Donor history found</p>
+      ) : (
+        <div className="card-grid">
+          {allDonor.map((item, index) => (
+            <div className="donor-card" key={index}>
+              <h2 className="donor-name">{item?.fullName}</h2>
+
+              <div className="info">
+                <span>Blood Group</span>
+                <b className="blood">{item?.bloodType}</b>
+              </div>
+
+              <div className="info">
+                <span>Reason</span>
+                <b>{item?.reason}</b>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
 export default ViewAllDonars;
+

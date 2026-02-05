@@ -7,7 +7,7 @@ async function Database() {
     }
 
     catch(error){
-        console.log("Db connection failed")
+        console.log("Db connection failed",error)
     }
 }
 
